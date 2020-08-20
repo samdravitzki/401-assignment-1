@@ -88,7 +88,15 @@ def cea_trace(domains, training_examples):
         G_trace.append(G.copy())
     return S_trace, G_trace
 
+
+# Checks whether all hypotheses in S and G all give True or all give False for a given input
+def all_agree(S, G, x):
+    out = ([match(x, s) for s in S] + [match(x, g) for g in G])
+    return all(out) or all(not o for o in out)
+
+
 def main():
+    # Q1 - CEA Algorithm #
     # # Example 1
     # domains = [
     #     {'red', 'blue'}
@@ -137,11 +145,6 @@ def main():
     # S, G = S_trace[-1], G_trace[-1]
     # print(len(S), len(G))
 
-
-
-    # matches = more_general(('Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same'), (NULL, NULL, NULL, NULL, NULL, NULL))
-    # print(matches)
-
     # # Example 4
     # domains = [
     #     ('Sunny', 'Cloudy', 'Rainy'),  # Sky
@@ -161,20 +164,57 @@ def main():
     #
     # S_trace, G_trace = cea_trace(domains, training_examples)
 
-    # Example 5
+    # # Example 5
+    # domains = [
+    #     {'red', 'green', 'blue'}
+    # ]
+    #
+    # training_examples = [
+    #     (('red',), True),
+    #     (('green',), True),
+    #     (('blue',), False),
+    # ]
+    #
+    # S_trace, G_trace = cea_trace(domains, training_examples)
+    # S, G = S_trace[-1], G_trace[-1]
+    # print(len(S) == len(G) == 0)
+
+    # Q2 - ALL AGREE #
+
+    # Example 1
     domains = [
-        {'red', 'green', 'blue'}
+        {'red', 'blue'},
     ]
 
     training_examples = [
         (('red',), True),
-        (('green',), True),
-        (('blue',), False),
     ]
 
     S_trace, G_trace = cea_trace(domains, training_examples)
     S, G = S_trace[-1], G_trace[-1]
-    print(len(S) == len(G) == 0)
+    print(all_agree(S, G, ('red',)))
+    print(all_agree(S, G, ('blue',)))
+
+    # # Example 2
+    # domains = [
+    #     {'T', 'F'},
+    #     {'T', 'F'},
+    # ]
+    #
+    # training_examples = [
+    #     (('F', 'F'), True),
+    #     (('T', 'T'), False),
+    # ]
+    #
+    # S_trace, G_trace = cea_trace(domains, training_examples)
+    # S, G = S_trace[-1], G_trace[-1]
+    # print(S)
+    # print(G)
+    # print("(F, F)", all_agree(S, G, ('F', 'F')), "T")
+    # print("(T, T)", all_agree(S, G, ('T', 'T')), "T")
+    # print("(F, T)", all_agree(S, G, ('F', 'T')), "F")
+    # print("(T, F)", all_agree(S, G, ('T', 'F')), "F")
+    # print()
 
 
 if __name__ == "__main__":
