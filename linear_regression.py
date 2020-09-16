@@ -25,7 +25,7 @@ def linear_regression(X, y, basis_functions=None):
         intercept = np.ones(X.shape[0])
         X = np.insert(X, 0, intercept, axis=1)
 
-    return (np.linalg.inv(X.T @ X) @ X.T) @ y
+    return np.matmul(np.matmul(np.linalg.inv(np.matmul(X.T, X)), X.T), y)
 
 
 if __name__ == "__main__":
@@ -44,21 +44,21 @@ if __name__ == "__main__":
     # print(ys)
     # print(linear_regression(xs, ys))
 
-    xs = np.array([[1, 2, 3, 4],
-                   [6, 2, 9, 1]]).T
-    ys = np.array([7, 5, 14, 8]).T
-    print(xs)
-    print(ys)
-    print(linear_regression(xs, ys))
-
-    # Question 3 #
-    # xs = np.array([0, 1, 2, 3, 4]).reshape((-1, 1))
-    # ys = np.array([3, 6, 11, 18, 27])
+    # xs = np.array([[1, 2, 3, 4],
+    #                [6, 2, 9, 1]]).T
+    # ys = np.array([7, 5, 14, 8]).T
     # print(xs)
     # print(ys)
-    # # Can you see y as a function of x? [hint: it's quadratic.]
-    # functions = [lambda x: x[0], lambda x: x[0] ** 2]
-    # print(linear_regression(xs, ys, functions))
+    # print(linear_regression(xs, ys))
+
+    # Question 3 #
+    xs = np.array([0, 1, 2, 3, 4]).reshape((-1, 1))
+    ys = np.array([3, 6, 11, 18, 27])
+    # print(xs)
+    # print(ys)
+    # Can you see y as a function of x? [hint: it's quadratic.]
+    functions = [lambda x: x[0], lambda x: x[0] ** 2]
+    print(linear_regression(xs, ys, functions))
 
     xs = np.array([[1, 2, 3, 4],
                    [6, 2, 9, 1]]).T
