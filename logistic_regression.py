@@ -28,8 +28,7 @@ def logistic_regression(X, Y, alpha, max_batches):
                 theta_j = theta[j] + alpha * gradient
                 theta[j] = theta_j
 
-    print("Theta = {}".format(theta))
-    return lambda given_feature: sigmoid(np.matmul(theta.T, np.insert(given_feature, 0, [1])))  # Pretty sure this is correct
+    return lambda given_feature: sigmoid(np.matmul(theta.T, np.insert(given_feature, 0, [1])))
 
 
 if __name__ == "__main__":
