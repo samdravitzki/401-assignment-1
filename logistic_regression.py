@@ -8,25 +8,21 @@ def sigmoid(x):
 
 def logistic_regression(X, Y, alpha, max_batches):
     # initialise the gradient decent with a vector of zeros called theta
-    intercept = np.ones(X.shape[0])
+    X.astype(np.float64)
+    intercept = np.ones(X.shape[0], dtype=np.float64)
     X = np.insert(X, 0, intercept, axis=1)
     xRows, xCols = X.shape
-    J = list(range(xCols))
     I = list(range(xRows))
-    theta = np.zeros(xCols)
+    theta = np.zeros(xCols, dtype=np.float64)
 
     # Gradient Ascent
     for _ in range(max_batches):
-        for j in J:
-            for i in I:
-                xi = X[i, :]
-                yi = Y[i]
-                xij = X[i, j]
-
-                prediction = sigmoid(np.matmul(theta.T, xi))
-                gradient = ((yi - prediction) * xij)
-                theta_j = theta[j] + alpha * gradient
-                theta[j] = theta_j
+        for i in I:
+            xi = X[i, :]
+            yi = Y[i]
+            prediction = sigmoid(np.matmul(theta.T, xi))
+            gradient = yi - prediction
+            theta = theta + alpha * gradient * xi
 
     return lambda given_feature: sigmoid(np.matmul(theta.T, np.insert(given_feature, 0, [1])))
 
